@@ -87,7 +87,7 @@ public class RobotMap {
         //ultrasonic = new Ultrasonic(8, 9);
         //RangeFinder.start();
 */
-        //CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture();
     }
     
 }
