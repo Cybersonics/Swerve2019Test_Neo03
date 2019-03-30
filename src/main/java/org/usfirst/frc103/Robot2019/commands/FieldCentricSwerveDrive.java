@@ -1,7 +1,7 @@
-package org.usfirst.frc103.Swerve2019Test.commands;
+package org.usfirst.frc103.Robot2019.commands;
 
-import org.usfirst.frc103.Swerve2019Test.Robot;
-import org.usfirst.frc103.Swerve2019Test.RobotMap;
+import org.usfirst.frc103.Robot2019.Robot;
+import org.usfirst.frc103.Robot2019.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Relay;
@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import org.usfirst.frc103.Robot2019.OI;
 
 public class FieldCentricSwerveDrive extends Command {
 	
@@ -18,7 +20,9 @@ public class FieldCentricSwerveDrive extends Command {
     private double originHeading = 0.0;
     private boolean originLocked = false;
     private double leftPow = 1.0;
-    private double rightPow = 1.0;
+	private double rightPow = 1.0;
+	
+	private double omega;
 
 	public FieldCentricSwerveDrive() {
         requires(Robot.drive);
@@ -32,7 +36,7 @@ public class FieldCentricSwerveDrive extends Command {
 
     @Override
 	protected void execute() {
-    	if (RobotMap.leftJoy.getRawButton(7)) originHeading = Robot.navX.getFusedHeading();
+    	if (OI.leftJoy.getRawButton(7)) originHeading = Robot.navX.getFusedHeading();
     	
     	//if (Robot.oi.leftJoy.getRawButton(8)) leftPow = 1.0;
     	//if (Robot.oi.leftJoy.getRawButton(10)) leftPow = 1.5;
@@ -42,10 +46,23 @@ public class FieldCentricSwerveDrive extends Command {
     	//if (Robot.oi.rightJoy.getRawButton(10)) rightPow = 1.5;
     	//if (Robot.oi.rightJoy.getRawButton(12)) rightPow = 2.0;
     		
-		double strafe = Math.pow(Math.abs(RobotMap.leftJoy.getX()), leftPow) * Math.signum(RobotMap.leftJoy.getX());
-		double forward = Math.pow(Math.abs(RobotMap.leftJoy.getY()), leftPow) * -Math.signum(RobotMap.leftJoy.getY());
-        double omega = Math.pow(Math.abs(RobotMap.rightJoy.getX()), rightPow) * Math.signum(RobotMap.rightJoy.getX()) * OMEGA_SCALE;
-        /*double strafe = Math.pow(Math.abs(Robot.oi.controller.getX(Hand.kLeft)), leftPow) * Math.signum(Robot.oi.controller.getX(Hand.kLeft));
+		double strafe = Math.pow(Math.abs(OI.leftJoy.getX()), leftPow) * Math.signum(OI.leftJoy.getX());
+		double forward = Math.pow(Math.abs(OI.leftJoy.getY()), leftPow) * -Math.signum(OI.leftJoy.getY());
+
+//		if(OI.rightJoy.getTrigger()) {
+			//if(Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) >= 350 || Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) <= 10 ||
+			//Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) >= 80 && Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) <= 100 ||
+			//Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) >= 170 && Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) <= 190 ||
+			//Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) >= 260 && Math.abs(RobotMap.navX.getFusedHeading() - Robot.zeroHeading) <= 280) {
+			//	omega = 0.0;
+			//} else {
+//				omega = Robot.drive.snapTo90();
+			//}
+//		} else {
+			omega = Math.pow(Math.abs(OI.rightJoy.getX()), rightPow) * Math.signum(OI.rightJoy.getX()) * OMEGA_SCALE;
+//		}
+
+		/*double strafe = Math.pow(Math.abs(Robot.oi.controller.getX(Hand.kLeft)), leftPow) * Math.signum(Robot.oi.controller.getX(Hand.kLeft));
 		double forward = Math.pow(Math.abs(Robot.oi.controller.getY(Hand.kLeft)), leftPow) * -Math.signum(Robot.oi.controller.getY(Hand.kLeft));
         double omega = Math.pow(Math.abs(Robot.oi.controller.getX(Hand.kRight)), rightPow) * Math.signum(Robot.oi.controller.getX(Hand.kRight)) * OMEGA_SCALE;*/
         
@@ -69,16 +86,14 @@ public class FieldCentricSwerveDrive extends Command {
 		// If all of the joysticks are in the deadzone, don't update the motors
 		// This makes side-to-side strafing much smoother
 		if (strafe == 0.0 && forward == 0.0 && omega == 0.0) {
-			
-		
-			Robot.drive.driveLeftFrontSpark.set(0.0);
-			Robot.drive.driveLeftRearSpark.set(0.0);
-			Robot.drive.driveRightFrontSpark.set(0.0);
-			Robot.drive.driveRightRearSpark.set(0.0);
+			Robot.drive.setDriveLeftFront(0.0);
+			Robot.drive.setDriveLeftRear(0.0);
+			Robot.drive.setDriveRightFront(0.0);
+			Robot.drive.setDriveRightRear(0.0);
 			return;
 		}
 		
-        if (!RobotMap.leftJoy.getTrigger()) {
+        if (!OI.leftJoy.getTrigger()) {
         	// When the trigger is pressed, we lock the origin heading to the current
         	// orientation of the robot, but only when the trigger is first pressed
     	//	if (!originLocked) {

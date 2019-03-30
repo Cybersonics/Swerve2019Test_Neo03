@@ -1,9 +1,11 @@
-package org.usfirst.frc103.Swerve2019Test.commands;
+package org.usfirst.frc103.Robot2019.commands;
 
-import org.usfirst.frc103.Swerve2019Test.Robot;
-import org.usfirst.frc103.Swerve2019Test.RobotMap;
+import org.usfirst.frc103.Robot2019.Robot;
+import org.usfirst.frc103.Robot2019.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc103.Robot2019.OI;
 
 public class SwerveDrive extends Command {
 
@@ -13,8 +15,8 @@ public class SwerveDrive extends Command {
 
     @Override
 	protected void execute() {
-		double vX = RobotMap.leftJoy.getX(), vY = -RobotMap.leftJoy.getY();
-        double omega = RobotMap.rightJoy.getX() / 30.0;
+		double vX = OI.leftJoy.getX(), vY = -OI.leftJoy.getY();
+        double omega = OI.rightJoy.getX() / 30.0;
         Robot.drive.swerveDrive(vX, vY, omega);
     }
 

@@ -1,7 +1,7 @@
-package org.usfirst.frc103.Swerve2019Test.commands;
+package org.usfirst.frc103.Robot2019.commands;
 
-import org.usfirst.frc103.Swerve2019Test.Robot;
-import org.usfirst.frc103.Swerve2019Test.RobotMap;
+import org.usfirst.frc103.Robot2019.Robot;
+import org.usfirst.frc103.Robot2019.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -51,16 +51,16 @@ public class DriveFieldCentric extends Command {
 			orientationError -= 360.0 * Math.signum(orientationError);
     	}
 		
-		if ((Math.abs(Robot.drive.driveLeftFrontSpark.get()) < distance) &&
-				(Math.abs(Robot.drive.driveRightFrontSpark.get()) < distance) &&
-				(Math.abs(Robot.drive.driveLeftRearSpark.get()) < distance) &&
-				(Math.abs(Robot.drive.driveRightRearSpark.get()) < distance)) {
+		// if ((Math.abs(Robot.drive.getDriveLFEncoder()) < distance) &&
+		// 		(Math.abs(Robot.drive.getDriveLREncoder()) < distance) &&
+		// 		(Math.abs(Robot.drive.getDriveRFEncoder()) < distance) &&
+		// 		(Math.abs(Robot.drive.getDriveRREncoder()) < distance)) {
 			
-			forward = 0.4;//0.35
-		} else {
-			forward = 0.0;
-			isDone = true;
-		}
+		// 	forward = 0.4;//0.35
+		// } else {
+		// 	forward = 0.0;
+		// 	isDone = true;
+		// }
 		// Rotate the velocity vector from the joystick by the difference between our
 		// current orientation and the current origin heading
 		
