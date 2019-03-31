@@ -53,6 +53,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
+    
+    nativeLib fileTree(dir: 'libs', include:'*.so')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
    
 

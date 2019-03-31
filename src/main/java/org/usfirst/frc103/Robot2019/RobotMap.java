@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import org.usfirst.frc103.Robot2019.subsystems.Drive;
 import org.usfirst.frc103.Robot2019.subsystems.Pneumatics;
 import org.usfirst.frc103.Robot2019.subsystems.Intake;
+import org.usfirst.frc103.Robot2019.pixy.*;
 
 
 /**
@@ -44,11 +45,6 @@ public class RobotMap {
     public static final int RIGHT_JOYSTICK = 1;
     public static final int CONTROLLER = 2;
 
-
-    public static final int DRIVE_LEFT_FRONT_TALON = 10;
-    public static final int DRIVE_LEFT_REAR_TALON = 11;
-    public static final int DRIVE_RIGHT_FRONT_TALON = 12;
-    public static final int DRIVE_RIGHT_REAR_TALON = 13;
     public static final int STEER_LEFT_FRONT_TALON = 16;
     public static final int STEER_LEFT_REAR_TALON = 17;
     public static final int STEER_RIGHT_FRONT_TALON = 18;
@@ -67,13 +63,23 @@ public class RobotMap {
     public static final int ELEVATOR_REAR_LOCK_FORWARD = 4;
     public static final int ELEVATOR_REAR_LOCK_REVERSE = 5;
 
+    public static Pixy pixy, pixyShooter;
+    public static Relay LedRelay;
     public static Relay visionLEDelay;
 
     public static void init() {
-
         
-        // visionLEDelay = new Relay(0, Direction.kForward);
-        // visionLEDelay.set(Value.kOn);
+        Pixy.enumerate();
+        Pixy.ensureAvailable(0xD892D58D);
+        pixy = new Pixy(0xD892D58D);
+        pixy.startBlockProgram();
+        pixy.startFrameGrabber();
+
+        LedRelay = new Relay(0, Direction.kForward);
+        LedRelay.set(Value.kOn);
+
+        //visionLEDelay = new Relay(0, Direction.kForward);
+        //visionLEDelay.set(Value.kOn);
 
         /*
         elevator = new Elevators();
